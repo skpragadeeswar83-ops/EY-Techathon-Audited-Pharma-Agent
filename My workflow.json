@@ -1,0 +1,275 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d453f3c4-6187-4b60-844b-a7c240892065",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "molecule_name",
+              "value": "Metformin",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "trial_phase_data",
+              "value": "Phase 2",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5da4de81-16a6-4289-a39e-3a7195ec7779",
+      "name": "Input Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json: {patent_active: true, expiry_date: '2030'}}];"
+      },
+      "id": "247af475-e6c4-437b-b46d-07407032209f",
+      "name": "Patent Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json: {trial_phase: 'Phase 2', sponsor: 'Acme Pharma'}}];"
+      },
+      "id": "431fd5e8-96f3-4450-8cfc-dbd4b523cfd5",
+      "name": "Clinical Trials Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json: {market_size: 1.2, competition: 'Low'}}];"
+      },
+      "id": "f5ac67f5-ab9c-4053-a763-5eb350112db5",
+      "name": "Market Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "327c039f-7e06-4f8e-bba8-3b1cb92de97d",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $('Merge').item.json.trial_phase }}",
+              "rightValue": "Phase 3",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e104af4d-4438-4f90-8707-20e5e3c137c6",
+      "name": "Fact-Checking Agent",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "Viability Score",
+              "value": "85/100",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6a2faa4b-41f7-4eb7-844c-82c7433dd252",
+      "name": "Portfolio Risk Agent",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        256
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "c486570f-729d-4c51-961e-bb414cb573cd",
+      "name": "Visual Report Generated",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        944,
+        256
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Input Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input Set": {
+      "main": [
+        [
+          {
+            "node": "Patent Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Clinical Trials Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Market Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Patent Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clinical Trials Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Market Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Fact-Checking Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fact-Checking Agent": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Portfolio Risk Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Portfolio Risk Agent": {
+      "main": [
+        [
+          {
+            "node": "Visual Report Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1d401155-09cc-4afb-b842-80cedb3c3f63",
+  "meta": {
+    "instanceId": "c51c2f1c4b1dfeecf32d15d69c5c321e2a01aacbbdd70b21f38700fb9cabb000"
+  },
+  "id": "V6DHyer1ueawfy1P",
+  "tags": []
+}
