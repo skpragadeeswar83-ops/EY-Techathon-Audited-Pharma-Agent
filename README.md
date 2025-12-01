@@ -27,7 +27,8 @@ The solution is built using an n8n orchestration framework to manage parallel ex
 
 **Visualization:**
 
-*A screenshot of the full, executed n8n workflow can be inserted here.*
+<img width="1280" height="832" alt="image" src="https://github.com/user-attachments/assets/7b6f0174-a267-4d3c-9afb-0acedf695468" />
+
 
 ---
 
