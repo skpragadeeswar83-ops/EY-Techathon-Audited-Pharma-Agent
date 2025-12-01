@@ -31,7 +31,9 @@ The solution is built using an n8n orchestration framework to manage parallel ex
 
 
 
-Uploading Screen Recording 2025-12-01 at 10.16.10â¯AM.mp4…
+https://github.com/user-attachments/assets/6ff3c2a0-ba3c-4c9b-8475-b01ca611349f
+
+
 
 
 ---
